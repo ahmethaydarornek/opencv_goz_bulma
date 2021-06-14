@@ -25,7 +25,6 @@ while True:
     """
 
     OKUNDU_BILGISI, OKUNAN_RENKLI_GORUNTU = KAMERA.read()
-    
     OKUNAN_RENKLI_GORUNTU = cv2.flip(OKUNAN_RENKLI_GORUNTU, 1)
 
     """
@@ -61,14 +60,15 @@ while True:
       
         cv2.rectangle(OKUNAN_RENKLI_GORUNTU, (x, y), (x+w, y+h), (255, 255, 0), 2)
         
-        YUZUN_BULUNDUGU_GRI_KISIM = GRI_GORUNTU[y:y+h, x:x+w]
-        YUZUN_BULUNDUGU_RENKLI_KISIM = OKUNAN_RENKLI_GORUNTU[y:y+h, x:x+w]
+        GOZ_ICIN_OKUNAN_RENKLI_GORUNTU = OKUNAN_RENKLI_GORUNTU[y:y+h, x:x+h]
         
-        BULUNAN_GOZLER = GOZ_BULAN_MODEL.detectMultiScale(YUZUN_BULUNDUGU_GRI_KISIM, 1.1, 4)
-       
+        GOZ_ICIN_GRI_GORUNTU = GRI_GORUNTU[y:y+h, x:x+h]
+        
+        BULUNAN_GOZLER = GOZ_BULAN_MODEL.detectMultiScale(GOZ_ICIN_GRI_GORUNTU, 1.1, 4)
+        
         for (gx, gy, gw, gh) in BULUNAN_GOZLER:
-         
-            cv2.rectangle(YUZUN_BULUNDUGU_RENKLI_KISIM, (gx, gy), (gx+gw, gy+gh), (255, 255, 0), 2)
+            
+            cv2.rectangle(GOZ_ICIN_OKUNAN_RENKLI_GORUNTU, (gx, gy), (gx+gw, gy+gh), (255, 255, 255), 2)
 
     """ Görüntü yeni açılan pencerede gösterilir """
     cv2.imshow('YUZ BULMA UYGULAMASI', OKUNAN_RENKLI_GORUNTU)
